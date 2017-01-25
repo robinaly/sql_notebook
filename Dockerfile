@@ -48,7 +48,7 @@ ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 ENV SHELL /bin/bash
 ENV NB_USER jovyan
-ENV NB_UID 1000
+ENV NB_UID 17685226
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
@@ -86,6 +86,8 @@ USER root
 #RUN conda create -n py27 python=2.7 anaconda
 RUN pip install git+https://github.com/robinaly/sql_kernel.git@558da4ae1a9fc4cbf90a21d0deb54cdd6c550f8c
 
+RUN pip install terminado ipywidgets plotchecker nose nbgrader && nbgrader extension install
+
 # Configure container startup as root
 EXPOSE 8888
 WORKDIR /home/$NB_USER/work
@@ -99,3 +101,4 @@ RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER jovyan
+RUN nbgrader extension activate
